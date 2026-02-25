@@ -6,7 +6,7 @@ OMS_BUILD=${OMS_WORKSPACE}/${JOB_NAME}_${BUILD_NUMBER}
 
 for ENV in SIT1 QA1 UAT1 HF1; do
   PROJECT="${CD}/xml/Charter -Phase3 Mec Model Version50-project-Sanity-readyapi-project-${ENV}.xml"
-  REPORT_DIR="${CD}/${BUILD_DIR}/${ENV}/junit_report"
+  REPORT_DIR="${CD}/${BUILD_DIR}/junit_report/${ENV}"
 
   if [ "${ENV}" = "SIT1" ]; then
     HOST=mwhlvchca01
@@ -24,10 +24,10 @@ for ENV in SIT1 QA1 UAT1 HF1; do
   ssh omswrk1@${HOST} \
     "mkdir -p ${OMS_BUILD}"
     
-  scp /java/remote/LogSearch.java \
+  scp /java/remote/ExtractDateAndOrderID.java \
     omswrk1@${HOST}:${OMS_WORKSPACE}
   ssh omswrk1@${HOST} \
-    "javac ${OMS_WORKSPACE}/LogSearch.java"
+    "javac -d ${OMS_WORKSPACE} ${OMS_WORKSPACE}/ExtractDateAndOrderID.java"
 
   ssh omswrk1@${HOST} \
     "tail -fn 0 \$(ls -t ${OMS_BASE}/weblogic.*.log | head -1) \
@@ -45,6 +45,6 @@ for ENV in SIT1 QA1 UAT1 HF1; do
     "kill \$(cat ${OMS_BUILD}/${ENV}.pid)"
 
   ssh omswrk1@${HOST} \
-    "java -cp ${OMS_WORKSPACE} LogSearch \
+    "java -cp ${OMS_WORKSPACE} ExtractDateAndOrderID \
       ${OMS_BUILD}/${ENV}.log"
 done
