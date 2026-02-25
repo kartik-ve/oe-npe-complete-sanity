@@ -1,5 +1,17 @@
 package com.amdocs.sanity;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -9,16 +21,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.file.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 final class ExcelReport {
 
@@ -95,7 +97,7 @@ final class ExcelReport {
             logger = s -> {};
         }
 
-        List<String> environments = List.of("SIT1", "QA1", "UAT1", "HF1");
+        List<String> environments = java.util.Arrays.asList("SIT1", "QA1", "UAT1", "HF1");
         List<String[]> excelRows = new ArrayList<>();
 
         for (String env : environments) {
