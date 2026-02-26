@@ -24,12 +24,11 @@ import org.w3c.dom.NodeList;
 
 final class ExcelReport {
 
-    private ExcelReport() {}
+    private ExcelReport() {
+    }
 
     private static String determineEnvStatus(File envDir) throws Exception {
-
         try (Stream<Path> paths = Files.walk(envDir.toPath())) {
-
             List<File> xmlFiles = paths
                     .filter(Files::isRegularFile)
                     .filter(p -> p.toString().endsWith(".xml"))
@@ -38,7 +37,6 @@ final class ExcelReport {
                     .collect(Collectors.toList());
 
             for (File xml : xmlFiles) {
-
                 DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder builder = factory.newDocumentBuilder();
                 Document doc = builder.parse(xml);
@@ -55,16 +53,16 @@ final class ExcelReport {
     }
 
     private static String readSingleLineFile(Path file) throws IOException {
-        if (!Files.exists(file)) return "N/A";
+        if (!Files.exists(file)) {
+            return "N/A";
+        }
+
         return Files.readAllLines(file).stream().findFirst().orElse("N/A");
     }
 
     private static void createExcel(List<String[]> rows, String outputFilePath) throws IOException {
-
         try (Workbook workbook = new XSSFWorkbook()) {
-
             Sheet sheet = workbook.createSheet("Sanity Summary");
-
             int rowNum = 0;
 
             // Header
@@ -89,21 +87,19 @@ final class ExcelReport {
     }
 
     static void generate(String junitPath,
-                               String dataDir,
-                               String outputPath,
-                               Consumer<String> logger) throws Exception {
-
+            String dataDir,
+            String outputPath,
+            Consumer<String> logger) throws Exception {
         if (logger == null) {
-            logger = s -> {};
+            logger = s -> {
+            };
         }
 
         List<String> environments = java.util.Arrays.asList("SIT1", "QA1", "UAT1", "HF1");
         List<String[]> excelRows = new ArrayList<>();
 
         for (String env : environments) {
-
             logger.accept("Processing environment: " + env);
-
             File envDir = new File(junitPath, env);
 
             if (!envDir.exists() || !envDir.isDirectory()) {
@@ -112,11 +108,10 @@ final class ExcelReport {
             }
 
             String status = determineEnvStatus(envDir);
-
             String orderId = readSingleLineFile(Paths.get(dataDir, env + ".id"));
             String runDate = readSingleLineFile(Paths.get(dataDir, env + ".date"));
 
-            excelRows.add(new String[]{env, status, orderId, runDate});
+            excelRows.add(new String[] { env, status, orderId, runDate });
         }
 
         String excelPath = outputPath + File.separator + "SanitySummary.xlsx";
