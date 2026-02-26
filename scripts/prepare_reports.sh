@@ -15,13 +15,13 @@ for ENV in SIT1 QA1 UAT1 HF1; do
     HOST=mwhlvchca04
   fi
   
-  scp omswrk1@${HOST}:${REMOTE_BUILD}/*.date \
+  scp omswrk1@${HOST}:${REMOTE_BUILD}/${ENV}.date \
     "${DATA_DIR}"
-  scp omswrk1@${HOST}:${REMOTE_BUILD}/*.id \
+  scp omswrk1@${HOST}:${REMOTE_BUILD}/${ENV}.id \
     "${DATA_DIR}"
 done
 
-REPORT_DIR="${WORKSPACE}/${BUILD_DIR}/junit_report
+REPORT_DIR="${WORKSPACE}/${BUILD_DIR}/junit_report"
 
 java -cp "java\local\target\classes;java\local\target\dependency\*" \
   com.amdocs.sanity.SanityRunner \
