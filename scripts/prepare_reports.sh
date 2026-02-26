@@ -21,7 +21,7 @@ for ENV in SIT1 QA1 UAT1 HF1; do
     "${DATA_DIR}"
 done
 
-REPORT_DIR="${CD}/${BUILD_DIR}/junit_report
+REPORT_DIR="${WORKSPACE}/${BUILD_DIR}/junit_report
 
 java -cp "java\local\target\classes;java\local\target\dependency\*" \
   com.amdocs.sanity.SanityRunner \
