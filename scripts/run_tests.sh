@@ -5,7 +5,7 @@ OMS_WORKSPACE=${OMS_BASE}/sanity_logs
 OMS_BUILD=${OMS_WORKSPACE}/${JOB_NAME}_${BUILD_NUMBER}
 
 for ENV in SIT1 QA1 UAT1 HF1; do
-  PROJECT="${WORKSPACE}/xml/Charter -Phase3 Mec Model Version50-project-Sanity-readyapi-project-${ENV}.xml"
+  PROJECT="${WORKSPACE}/xml/${ENV}.xml"
   REPORT_DIR="${WORKSPACE}/${BUILD_DIR}/junit_report/${ENV}"
 
   if [ "${ENV}" = "SIT1" ]; then
@@ -35,8 +35,8 @@ for ENV in SIT1 QA1 UAT1 HF1; do
       2>&1 & echo \$! > ${OMS_BUILD}/${ENV}.pid"
 
   /opt/SoapUI-5.5.0/bin/testrunner.sh \
-    -s "Sanity - Guided Flow - New Connect" \
-    -c "TP (DP Offer 19867641 TV Select Signature + Internet Gig + 1Y Voice Bundle Offer 295671251) SPP 4.0 NC - Add Premium Channel MGM" \
+    -s "Change of Service" \
+    -c "TP Offer 402531 - Add 2 Additional HD STB - No Pending Services" \
     -j -f "${REPORT_DIR}" \
     -r "${PROJECT}" \
   || true

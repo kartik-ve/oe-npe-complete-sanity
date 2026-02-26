@@ -25,6 +25,5 @@ REPORT_DIR="${WORKSPACE}/${BUILD_DIR}/junit_report"
 
 java -cp "java/local/target/classes:java/local/target/dependency/*" \
   com.amdocs.sanity.SanityRunner \
-  "${REPORT_DIR}" \
-  "${DATA_DIR}" \
-  "${BUILD_DIR}"
+    --config config/sanity.properties \
+    --buildDir ${BUILD_DIR}
